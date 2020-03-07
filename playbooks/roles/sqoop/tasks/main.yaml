@@ -1,0 +1,21 @@
+---
+- replace:
+        path: '{{ item }}'
+        regexp: '{ as400_passwd }'
+        replace: '{{ as400_passwd }}'
+  with_fileglob:
+    - '../aws/sqoop/as400/*'
+
+- replace:
+        path: '{{ item }}'
+        regexp: '{ as400_conn }'
+        replace: '{{ as400_conn }}'
+  with_fileglob:
+    - '../aws/sqoop/as400/*'
+
+- replace:
+        path: '{{ item }}'
+        regexp: '{ enviroment }'
+        replace: '{{ enviroment }}'
+  with_fileglob:
+    - '../aws/datapipeline/*'

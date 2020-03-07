@@ -1,0 +1,167 @@
+{
+  "objects": [
+    {
+      "resourceRole": "DataPipelineDefaultResourceRole",
+      "role": "DataPipelineDefaultRole",
+      "name": "Ec2Instance",
+      "id": "Ec2Instance",
+      "instanceType": "t2.micro",
+      "subnetId": "subnet-6b4b2f36",
+      "imageId": "ami-14c5486b",
+      "type": "Ec2Resource",
+      "associatePublicIpAddress": "false",
+      "terminateAfter": "3 hour"
+    },
+    {
+      "dependsOn": [
+        {
+          "ref": "templated-emr-start"
+        },
+        {
+          "ref": "ProfExtractAS400URBCRBInvoicesEmrActivityObj"
+        },
+        {
+          "ref": "MillProfExtractAS400URBCRBSalesmanRelationshipEmrActivityObj"
+        },
+        {
+          "ref": "MillProfExtractAS400DboSalesmanEmrActivityObj"
+        }
+      ],
+      "scriptUri": "#{myEMRStop}",
+      "maximumRetries": "0",
+      "name": "templated-emr-stop",
+      "runsOn": {
+        "ref": "Ec2Instance"
+      },
+      "scriptArgument": [
+        "templated-emr-terminate",
+        "clustername=#{myEMRName}"
+      ],
+      "id": "templated-emr-stop",
+      "type": "ShellCommandActivity"
+    },
+    {
+      "scriptUri": "#{myEMRStart}",
+      "name": "templated-emr-start",
+      "scriptArgument": [
+        "#{myEMRName}",
+        "#{myEMRTemplateID}",
+        "#{myEMRReleaseLabel}",
+        "#{myWorkerGroup}"
+      ],
+      "id": "templated-emr-start",
+      "maximumRetries": "0",
+      "runsOn": {
+        "ref": "Ec2Instance"
+      },
+      "type": "ShellCommandActivity"
+    },
+    {
+      "name": "ProfExtractAS400URBCRBInvoicesEmrActivityObj",
+      "step": "#{myMillProfExtractAS400URBCRBInvoicesEmrActivityObj}",
+      "id": "ProfExtractAS400URBCRBInvoicesEmrActivityObj",
+      "workerGroup": "#{myWorkerGroup}",
+      "type": "EmrActivity",
+      "dependsOn": {
+        "ref": "templated-emr-start"
+      }
+    },
+    {
+      "name": "MillProfExtractAS400URBCRBSalesmanRelationshipEmrActivityObj",
+      "step": "#{myMillProfExtractAS400URBCRBSalesmanRelationshipEmrActivityObj}",
+      "id": "MillProfExtractAS400URBCRBSalesmanRelationshipEmrActivityObj",
+      "workerGroup": "#{myWorkerGroup}",
+      "type": "EmrActivity",
+      "dependsOn": {
+        "ref": "templated-emr-start"
+      }
+    },
+    {
+      "name": "MillProfExtractAS400DboSalesmanEmrActivityObj",
+      "step": "#{myMillProfExtractAS400DboSalesmanEmrActivityObj}",
+      "id": "MillProfExtractAS400DboSalesmanEmrActivityObj",
+      "workerGroup": "#{myWorkerGroup}",
+      "type": "EmrActivity",
+      "dependsOn": {
+        "ref": "templated-emr-start"
+      }
+    },
+    {
+      "schedule": {
+        "ref": "DefaultSchedule"
+      },
+      "failureAndRerunMode": "CASCADE",
+      "resourceRole": "DataPipelineDefaultResourceRole",
+      "role": "DataPipelineDefaultRole",
+      "pipelineLogUri": "#{myPipelineLogUri}",
+      "scheduleType": "cron",
+      "name": "Default",
+      "id": "Default"
+    },
+    {
+      "period": "1 days",
+      "startAt": "FIRST_ACTIVATION_DATE_TIME",
+      "name": "Every 1 day",
+      "id": "DefaultSchedule",
+      "type": "Schedule"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "mySqoopCommand",
+      "type": "string"
+    },
+    {
+      "id": "myWorkerGroup",
+      "type": "string"
+    },
+    {
+      "id": "mySqoopScriptBucket",
+      "type": "string"
+    },
+    {
+      "id": "mySqoopScriptPath",
+      "type": "string"
+    },
+    {
+      "id": "myMillProfExtractAS400URBCRBInvoicesEmrActivityObj",
+      "type": "String"
+    },
+    {
+      "id": "myMillProfExtractAS400URBCRBSalesmanRelationshipEmrActivityObj",
+      "type": "String"
+    },
+    {
+      "id": "myMillProfExtractAS400DboSalesmanEmrActivityObj",
+      "type": "String"
+    },
+    {
+      "id": "myTopicARN",
+      "type": "String"
+    },
+    {
+      "id": "myEMRStart",
+      "type": "String"
+    },
+    {
+      "id": "myEMRStop",
+      "type": "String"
+    }
+  ],
+  "values": {
+    "myEMRStart": "s3://wrktdtransformationprocessproddtl001/buildtrigger/scripts/templated-emr-start.sh",
+    "myEMRStop": "s3://wrktdtransformationprocessproddtl001/buildtrigger/scripts/paramaterized-job-nova.sh",
+    "mySqoopCommand": "s3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar",
+    "mySqoopScriptBucket": "s3://wrktdtransformationprocessproddtl001",
+    "mySqoopScriptPath": "/mys3sub-ingest/{ enviroment }/aws/sqoop",
+    "myPipelineLogUri": "s3://wrktdtransformationlogproddtl001/",
+    "myMillProfExtractAS400URBCRBInvoicesEmrActivityObj": "#{mySqoopCommand},#{mySqoopScriptBucket}#{mySqoopScriptPath}/as400/extract_pbm_as400_urbcrb_invoices.sh",
+    "myMillProfExtractAS400URBCRBSalesmanRelationshipEmrActivityObj": "#{mySqoopCommand},#{mySqoopScriptBucket}#{mySqoopScriptPath}/as400/extract_pbm_as400_urbcrb_salesmanrelationship.sh",
+    "myMillProfExtractAS400DboSalesmanEmrActivityObj": "#{mySqoopCommand},#{mySqoopScriptBucket}#{mySqoopScriptPath}/as400/dbo_salesman.sh",
+    "myTopicARN": "arn:aws:sns:us-east-1:313644149065:td-transformation-dev-{{ enviroment }}--prof-ingest-extract-datapipeline-SuccessNotify",
+    "myEMRReleaseLabel": "emr-5.15.0",
+    "myEMRTemplateID": "-prof",
+    "myEMRName": "td-transformation-{ enviroment }-ingest_helper_extract-daily",
+    "myWorkerGroup": "td-transformation-{ enviroment }-ingest_helper_extract-daily"
+  }
+}

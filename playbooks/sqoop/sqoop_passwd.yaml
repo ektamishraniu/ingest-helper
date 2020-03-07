@@ -1,0 +1,8 @@
+---
+- name: Generate Sqoop Files 
+  hosts: localhost
+
+  roles: 
+   - sqoop
+
+

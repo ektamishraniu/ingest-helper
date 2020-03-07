@@ -1,0 +1,9 @@
+---
+#as400_dir: sqoop_conf/as400
+#jinja_dir: ./roles/sqoop/templates
+#as400_squoop_script_dir: ../../aws/sqoop/as400
+#pipeline_dir: ../../aws/datapipeline
+vault_token: "{{ token }}"
+as400_conn: "{{ as400_conn }}"
+enviroment: "{{ enviroment }}"
+as400_passwd: "{{ lookup('hashi_vault', 'secret=secret/data/helper-ingest/sqoop-passwd-as400:data token={{ vault_token }} url=http://162.34.15.162:8200')['password'] }}"

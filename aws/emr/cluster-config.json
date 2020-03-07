@@ -1,0 +1,90 @@
+[
+  {
+    "Classification": "hive-site",
+    "Properties": {
+      "hive.msck.path.validation": "ignore",
+      "hive.cli.print.header": "true",    
+      "javax.jdo.option.ConnectionURL": "jdbc:mysql:\/\/wrktdtransformation-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com:3306\/hive?createDatabaseIfNotExist=true",
+      "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver",
+      "javax.jdo.option.ConnectionUserName": "svcipttransform",
+      "javax.jdo.option.ConnectionPassword": "M!llPr0f2o!8",
+      "hive.exec.dynamic.partition": "true",
+      "hive.exec.dynamic.partition.mode": "nonstrict",
+      "hive.exec.max.dynamic.partitions": "500000",
+      "hive.exec.max.dynamic.partitions.pernode": "250000",
+      "hive.support.concurrency": "true",
+      "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager",
+      "hive.compactor.initiator.on": "true",
+      "hive.compactor.worker.threads": "8"    
+    }
+  },
+  {
+    "Classification": "hue-ini",
+    "Properties": {},
+    "Configurations": [
+      {
+        "Classification": "desktop",
+        "Properties": {},
+        "Configurations": [
+          {
+            "Classification": "database",
+            "Properties": {
+              "name": "hive",
+              "user": "svcipttransform",
+              "password": "M!llPr0f2o!8",
+              "host": "wrktdtransformation-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com",
+              "port": "3306",
+              "engine": "mysql"
+            },
+            "Configurations": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Classification": "spark-env",
+    "Configurations": [
+      {
+        "Classification": "export",
+        "Properties": {
+          "PYSPARK_PYTHON": "/usr/local/bin/python3.6",
+          "PATH": "/usr/local/bin:$PATH"
+        }
+      }
+    ]
+  },
+  {
+    "Classification": "spark-hive-site",
+    "Properties": {
+      "javax.jdo.option.ConnectionURL": "jdbc:mysql://wrktdtransformation-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com:3306/hive?createDatabaseIfNotExist=true",
+      "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver",
+      "javax.jdo.option.ConnectionUserName": "svcipttransform",
+      "javax.jdo.option.ConnectionPassword": "M!llPr0f2o!8",
+      "hive.execution.engine": "spark",
+      "hive.optimize.sort.dynamic.partition": "true",
+      "hive.msck.path.validation": "ignore",
+      "hive.exec.max.dynamic.partitions": "500000",
+      "hive.support.concurrency": "true",
+      "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager",
+      "hive.cli.print.header": "true",
+      "hive.exec.dynamic.partition.mode": "nonstrict",
+      "hive.exec.max.dynamic.partitions.pernode": "250000",
+      "hive.compactor.worker.threads": "8",
+      "hive.exec.dynamic.partition": "true",
+      "hive.compactor.initiator.on": "true",
+      "spark.sql.hive.metastore.jars": "/usr/lib/hive/lib/*:/usr/lib/hadoop/lib/*"
+    }
+  },
+  {
+    "Classification": "spark-defaults",
+    "Properties": {
+      "spark.sql.hive.convertMetastoreOrc": "true",
+      "spark.sql.files.ignoreMissingFiles": "true",
+      "spark.sql.adaptive.enabled": "true",
+      "spark.sql.hive.verifyPartitionPath": "false",
+      "spark.sql.orc.filterPushdown": "true",
+      "spark.sql.sources.partitionOverwriteMode": "dynamic"
+    }
+  }  
+]

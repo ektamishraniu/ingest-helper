@@ -1,0 +1,23 @@
+{
+    "app_name": "ingest_sapr3_sap_payor",
+    "key_columns": ["invoice_id", "sap_payor"],
+	"partitioned_by": [],
+    "read_options": {
+        "io": "s3://mys3bucket/mys3sub/sap_payor/sap_payor.xlsx",
+        "sheet_name": "Query1",
+        "header": 0,
+        "usecols": [0,1],
+        "convert_float": true,
+        "engine": "xlrd"
+    },
+    "schema": {
+        "fields": [
+            {"name": "invoice_id", "type": "string", "nullable": false, "metadata": ""},
+            {"name": "sap_payor", "type": "string", "nullable": false, "metadata": ""}
+        ]
+    },          
+    "archive_path": "s3://mys3bucket/archive/mys3sub/sap/sap_payor",
+    "hive_db": "sapr3",
+    "hive_table": "sap_payor",
+    "force_truncate": true
+}
