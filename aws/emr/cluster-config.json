@@ -4,10 +4,10 @@
     "Properties": {
       "hive.msck.path.validation": "ignore",
       "hive.cli.print.header": "true",    
-      "javax.jdo.option.ConnectionURL": "jdbc:mysql:\/\/wrktdtransformation-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com:3306\/hive?createDatabaseIfNotExist=true",
+      "javax.jdo.option.ConnectionURL": "jdbc:mysql:\/\/xxxxxxxx-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com:3306\/hive?createDatabaseIfNotExist=true",
       "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver",
       "javax.jdo.option.ConnectionUserName": "svcipttransform",
-      "javax.jdo.option.ConnectionPassword": "M!llPr0f2o!8",
+      "javax.jdo.option.ConnectionPassword": "xxxxxxx",
       "hive.exec.dynamic.partition": "true",
       "hive.exec.dynamic.partition.mode": "nonstrict",
       "hive.exec.max.dynamic.partitions": "500000",
@@ -31,8 +31,8 @@
             "Properties": {
               "name": "hive",
               "user": "svcipttransform",
-              "password": "M!llPr0f2o!8",
-              "host": "wrktdtransformation-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com",
+              "password": "xxxxxxxx",
+              "host": "xxxxxxxxxx-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com",
               "port": "3306",
               "engine": "mysql"
             },
@@ -57,10 +57,10 @@
   {
     "Classification": "spark-hive-site",
     "Properties": {
-      "javax.jdo.option.ConnectionURL": "jdbc:mysql://wrktdtransformation-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com:3306/hive?createDatabaseIfNotExist=true",
+      "javax.jdo.option.ConnectionURL": "jdbc:mysql://xxxxxxx-hive-metastore.cuqobvvtfrop.us-east-1.rds.amazonaws.com:3306/hive?createDatabaseIfNotExist=true",
       "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver",
       "javax.jdo.option.ConnectionUserName": "svcipttransform",
-      "javax.jdo.option.ConnectionPassword": "M!llPr0f2o!8",
+      "javax.jdo.option.ConnectionPassword": "xxxxxxxxx",
       "hive.execution.engine": "spark",
       "hive.optimize.sort.dynamic.partition": "true",
       "hive.msck.path.validation": "ignore",
